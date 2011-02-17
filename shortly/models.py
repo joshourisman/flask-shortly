@@ -16,7 +16,7 @@ class Url(object):
 
     @property
     def long_url(self):
-        return 'http://www.google.com'
+        return self.r.get('url:%s:long_url' % self.s)
 
     def shorten(self, long_url, short_url=''):
         if short_url == '':
