@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, request, url_for
 
 from models import Url
 
@@ -17,3 +17,10 @@ def to_long_url(short_url):
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/create/', methods=['POST',])
+def add_url():
+    long_url = request.form['long_url']
+    new_url = Url()
+    short_url = new_url.shorten(long_url)
+    return redirect(url_for('info_page', short_url=short_url))
