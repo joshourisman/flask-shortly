@@ -14,3 +14,6 @@ def to_long_url(short_url):
     url = Url(short_url)
     return redirect(url.long_url)
 
+@app.route('/')
+def index():
+    return render_template('index.html')

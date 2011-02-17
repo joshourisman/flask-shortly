@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="POST" id="create-form" action="/create">
+  <input
+     type="url"
+     name="long_url"
+     placeholder="Enter URL to be shortened..."
+     style="width: 400px;"
+     required
+     />
+  <input type="submit" />
+</form>
+{% endblock %}
