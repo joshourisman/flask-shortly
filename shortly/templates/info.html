@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-{{ url.short_url }}: {{ url.long_url }}
+<p>{{ url.short_url }}: {{ url.long_url }}</p>
+<p>{{ request }}</p>
 {% endblock %}

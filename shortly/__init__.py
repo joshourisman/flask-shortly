@@ -7,7 +7,7 @@ app = Flask(__name__)
 @app.route("/<short_url>+")
 def info_page(short_url):
     url = Url(short_url)
-    return render_template('info.html', url=url)
+    return render_template('info.html', url=url, request=dir(request))
 
 @app.route("/<short_url>")
 def to_long_url(short_url):
@@ -21,6 +21,7 @@ def index():
 @app.route('/create/', methods=['POST',])
 def add_url():
     long_url = request.form['long_url']
+    short_url = request.form['short_url']
     new_url = Url()
-    short_url = new_url.shorten(long_url)
+    short_url = new_url.shorten(long_url, short_url)
     return redirect(url_for('info_page', short_url=short_url))

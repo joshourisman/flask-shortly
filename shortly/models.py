@@ -16,8 +16,11 @@ class Url(object):
     def long_url(self):
         return 'http://www.google.com'
 
-    def shorten(self, long_url):
-        url_hash = '%x' % self.r.incr('next.url.id')
+    def shorten(self, long_url, short_url=''):
+        if short_url == '':
+            url_hash = '%x' % self.r.incr('next.url.id')
+        else:
+            url_hash = short_url
         self.r.set('url:%s:id' % url_hash, long_url)
         self.r.push('global:urls', url_hash)
         return url_hash
