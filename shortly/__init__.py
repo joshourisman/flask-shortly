@@ -13,7 +13,3 @@ def to_info_page(short_url):
 def to_long_url(short_url):
     return redirect(expand(short_url))
 
-if __name__ == "__main__":
-    app.debug = True
-    app.run(host='0.0.0.0')
-
