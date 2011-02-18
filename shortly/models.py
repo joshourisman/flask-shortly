@@ -1,3 +1,5 @@
+from exceptions import URLExistsException
+
 from redis import Redis
 
 import datetime
@@ -11,13 +13,28 @@ class Url(object):
             self.long_url = self.r.get('url:%s:long_url' % self.short_url)
 
     def shorten(self, long_url, short_url=''):
-        if short_url == '':
-            url_hash = '%x' % self.r.incr('next.url.id')
+        exists = self.r.hexists('global:urls', long_url) == True
+        if exists:
+            canonical = self.r.hget('global:urls', long_url)
         else:
-            url_hash = short_url
+            canonical = '%x' % self.r.incr('next.url.id')
+            self.r.set('url:%s:long_url' % canonical, long_url)
+            self.r.set('url:%s:created' % canonical, datetime.datetime.now())
+            self.r.set('url:%s:short_url'% long_url, canonical)
+        self.short_url = canonical
+        self.long_url = long_url
             
-        self.r.set('url:%s:long_url' % url_hash, long_url)
-        self.r.set('url:%s:created' % url_hash, datetime.datetime.now())
-        self.r.set('url:%s:short_url'% long_url, url_hash)
-        self.r.push('global:urls', url_hash)
+        if short_url != '':
+            if self.r.exists('url:%s:long_url' % short_url) == 1:
+                existing_long = self.r.get('url:%s:long_url' % short_url)
+                msg = 'The custom shortened URL "%s" already exists and' \
+                    ' is pointing to %s.' % (
+                    short_url,
+                    existing_long,
+                    )
+                raise URLExistsException(msg)
+            self.r.set('url:%s:long_url' % short_url, long_url)
+            self.r.set('url:%s:canonical' % short_url, canonical)
+            self.r.sadd('url:%s:alternates' % canonical, short_url)
+
         return url_hash
