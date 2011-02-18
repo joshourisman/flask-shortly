@@ -7,16 +7,8 @@ class Url(object):
         self.r = Redis(db=0)
         
         if short_url is not None:
-            self.s = short_url
-            self.l = self.r.get('url:%s:long_url' % self.s)
-
-    @property
-    def short_url(self):
-        return self.s
-
-    @property
-    def long_url(self):
-        return self.r.get('url:%s:long_url' % self.s)
+            self.short_url = short_url
+            self.long_url = self.r.get('url:%s:long_url' % self.short_url)
 
     def shorten(self, long_url, short_url=''):
         if short_url == '':
