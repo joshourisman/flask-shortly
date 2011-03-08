@@ -6,10 +6,8 @@
 <p>
   <h2>Hits</h2>
   <ul>
-    <li><b>{{ url.canonical }}</b>: {{ url.canonical_hits }}</li>
-    {% for alternate in url.alternates() %}
-    <li>{{ alternate.0 }}: {{ alternate.1 }}</li>
-    {% endfor %}
+    <li>{{ url.hits }} clicks for link {{ url.short_url }}</li>
+    <li>{{ url.canonical_hits }} total clicks for aggregate link {{ url.canonical }}</li>
   </ul>
 </p>
 {% endblock %}
