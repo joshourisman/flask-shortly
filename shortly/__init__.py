@@ -11,7 +11,7 @@ def info_page(short_url):
 
 @app.route("/<short_url>")
 def to_long_url(short_url):
-    url = Url(short_url)
+    url = Url(short_url, request=request)
     return redirect(url.long_url)
 
 @app.route('/')
