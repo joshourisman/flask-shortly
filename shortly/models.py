@@ -1,3 +1,4 @@
+from flask import abort
 from redis import Redis
 
 import datetime
@@ -8,7 +9,11 @@ class Url(object):
         
         if short_url is not None:
             self.short_url = short_url
-            self.long_url = self.r.get('url:%s:long_url' % self.short_url)
+            long_url = self.r.get('url:%s:long_url' % self.short_url)
+            if long_url is not None:
+                self.long_url = long_url
+            else:
+                abort(404)
 
     def shorten(self, long_url, short_url=''):
         if short_url == '':
