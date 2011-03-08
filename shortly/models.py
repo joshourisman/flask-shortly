@@ -45,7 +45,5 @@ class Url(object):
             self.r.set('url:%s:canonical' % short_url, canonical)
             self.r.sadd('url:%s:alternates' % canonical, short_url)
             self.long_url = long_url
-        else:
-            self.short_url = short_url
 
-        return self.short_url
+        return canonical
