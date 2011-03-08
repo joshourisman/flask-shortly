@@ -1,9 +1,9 @@
-from exceptions import URLExistsException
+import datetime
 
 from flask import abort
 from redis import Redis
 
-import datetime
+from exceptions import URLExistsException
 
 class Url(object):
     def __init__(self, short_url=None):
