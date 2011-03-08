@@ -6,7 +6,7 @@ from redis import Redis
 from exceptions import URLExistsException
 
 class Url(object):
-    def __init__(self, short_url=None):
+    def __init__(self, short_url=None, request=None):
         self.r = Redis(db=0)
         
         if short_url is not None:
