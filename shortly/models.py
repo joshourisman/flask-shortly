@@ -17,8 +17,6 @@ class Url(object):
             else:
                 abort(404)
             self.canonical = self.r.hget('global:url', self.long_url)
-            self.alternates = self.r.smembers('url:%s:alternates' % \
-                                                  self.canonical)
 
         if request is not None:
             self.r.zincrby('hits', self.canonical)
@@ -29,6 +27,11 @@ class Url(object):
             self.hits = self.r.zscore('hits', self.short_url)
             self.canonical_hits = self.r.zscore('hits', self.canonical)
 
+    def alternates(self):
+        alternate_urls = self.r.smembers('url:%s:alternates' % self.canonical)
+        for url in alternate_urls:
+            yield (url, Url(url).hits)
+            
     def shorten(self, long_url, short_url=''):
         self.long_url = long_url
         exists = self.r.hexists('global:url', long_url) is True
