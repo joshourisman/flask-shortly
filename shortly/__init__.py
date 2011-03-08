@@ -7,7 +7,7 @@ app = Flask(__name__)
 @app.route("/<short_url>+")
 def info_page(short_url):
     url = Url(short_url)
-    return render_template('info.html', url=url, request=dir(request))
+    return render_template('info.html', url=url)
 
 @app.route("/<short_url>")
 def to_long_url(short_url):
