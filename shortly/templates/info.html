@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-<p>{{ url.short_url }}: {{ url.long_url }}</p>
-<p>Main short url: {{ url.canonical }}</p>
+<p>http://dsc.tv/{{ url.short_url }} :: {{ url.long_url }}</p>
+<p>Aggregate link: http://dsc.tv/{{ url.canonical }}</p>
 <p>
   <h2>Hits</h2>
   <ul>
-    <li>{{ url.hits }} clicks for link {{ url.short_url }}</li>
-    <li>{{ url.canonical_hits }} total clicks for aggregate link {{ url.canonical }}</li>
+    <li>{{ url.hits }} clicks for link http://dsc.tv/{{ url.short_url }}</li>
+    <li>{{ url.canonical_hits }} total clicks for aggregate link http://dsc.tv/{{ url.canonical }}</li>
   </ul>
 </p>
 {% endblock %}
