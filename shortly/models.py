@@ -24,13 +24,13 @@ class Url(object):
                 self.r.zincrby('hits', self.short_url)
 
         if self.short_url is not None:
-            self.hits = self.r.zscore('hits', self.short_url)
-            self.canonical_hits = self.r.zscore('hits', self.canonical)
+            self.hits = int(self.r.zscore('hits', self.short_url))
+            self.canonical_hits = int(self.r.zscore('hits', self.canonical))
 
     def alternates(self):
         alternate_urls = self.r.smembers('url:%s:alternates' % self.canonical)
         for url in alternate_urls:
-            yield (url, Url(url).hits)
+            yield (url, int(Url(url).hits))
             
     def shorten(self, long_url, short_url=''):
         self.long_url = long_url
